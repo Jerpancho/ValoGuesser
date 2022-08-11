@@ -1,21 +1,16 @@
 import "./app.css";
-
+import Home from "./components/home";
+import Select from "./components/select";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 function App() {
+
   return (
-    <div className="app">
-      <header className="app-header">
-        <h1>Valorant Guesser</h1>
-      </header>
-      <main>
-        {/* this section will be replaced by images of instructions? */}
-        <div className="tutorial">
-          <section>test</section>
-          <section>test</section>
-          <section>test</section>
-          <section>test</section>
-        </div>
-      </main>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route exact path="/" element={<Home />} />
+        <Route exact path="/select" element={<Select />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
