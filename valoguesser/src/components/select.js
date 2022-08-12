@@ -3,7 +3,6 @@ import React, { useState } from "react";
 const Select = () => {
   // this list should be taken from an api with proper unique ids
   const [mapList, setMapList] = useState(["Ascent", "Bind", "Haven"]);
-
   const [selected, setSelected] = useState("");
   console.log(selected);
   return (
