@@ -26,7 +26,6 @@ header {
 
 main {
   margin-top: 3rem;
-  background-color: blue;
 }
 .tutorial {
   font-family: Valorant, sans-serif;
@@ -36,7 +35,6 @@ main {
   flex-wrap: wrap;
   justify-content: space-around;
   gap: 2rem;
-  background-color: red;
 }
 
 section {
@@ -58,4 +56,19 @@ section {
   padding: 1rem 2.5em;
   text-decoration: none;
   color: white;
+}
+
+.map-selection {
+  width: max(80%, 90em);
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-evenly;
+}
+.map-selection > li {
+  list-style: none;
+  border: 2px solid;
+}
+
+li > input {
+  padding: 2rem;
 }
