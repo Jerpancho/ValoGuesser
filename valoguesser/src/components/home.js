@@ -23,7 +23,7 @@ const Home = () => {
           })}
         </div>
         <div className="btn-container">
-          <Link to="/select" className="btn">
+          <Link to="/map" className="btn">
             START
           </Link>
         </div>

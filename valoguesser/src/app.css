@@ -72,3 +72,12 @@ section {
 li > input {
   padding: 2rem;
 }
+
+.game {
+  margin: 50px;
+}
+.map-container {
+  width: 500px;
+  height: 500px;
+  background-color: red;
+}
