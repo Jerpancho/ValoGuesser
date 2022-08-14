@@ -5,6 +5,7 @@ const Select = () => {
   const [mapList, setMapList] = useState(["Ascent", "Bind", "Haven"]);
   const [selected, setSelected] = useState("");
   console.log(selected);
+  console.log(setMapList);
   return (
     <div className="app">
       <header className="app-header">
@@ -13,6 +14,7 @@ const Select = () => {
       <main>
         <ul className="map-selection">
           {mapList.map((item, index) => (
+            //turn this into a cards list instead
             <li key={index}>
               <input
                 type="button"

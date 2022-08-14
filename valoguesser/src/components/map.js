@@ -1,8 +1,9 @@
 import React from 'react'
 
-const map = ({ coords, handleCoords, map, click }) => {
+const Map = ({ coords, handleCoords, map, click }) => {
+    let url = "https://assets.rockpapershotgun.com/images/2020/06/Ascent-Callouts.png";
     return (
-        <svg className="map-container" onMouseDown={handleCoords} ref={map}>
+        <svg className="map-container" onMouseDown={handleCoords} ref={map} style={{ backgroundImage: `url(${url})`, backgroundSize: "cover" }}>
             {click && (
                 <circle
                     cx={coords.x}
@@ -17,4 +18,4 @@ const map = ({ coords, handleCoords, map, click }) => {
     )
 }
 
-export default map
+export default Map
