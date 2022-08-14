@@ -77,10 +77,14 @@ li > input {
   margin: 50px;
 }
 .map-container {
+  /* remove display block later */
+  display: block;
   width: 500px;
   height: 500px;
+  border: 2px solid;
   background-color: red;
 }
+
 .map-button {
   padding: 1rem 2em;
 }
