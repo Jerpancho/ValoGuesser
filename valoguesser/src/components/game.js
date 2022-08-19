@@ -2,12 +2,14 @@ import React, { useState, useRef } from "react";
 import Map from "./map";
 // import { useParams } from "react-router-dom";
 
-const Game = (props) => {
+const Game = () => {
   // the useParams takes the id and gets the map image url with the following id
   const map = useRef(null); //targets the map
   const [coords, setCoords] = useState({ x: 0, y: 0 });
   const [click, setClick] = useState(false);
   const [confirm, setConfirm] = useState(false);
+  
+  // rounds variable
   // use a reducer to handle game state/ track scores?
 
   const getCoords = (e) => {
