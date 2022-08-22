@@ -75,13 +75,14 @@ li > input {
 
 .game {
   margin: 50px;
+  display: flex;
+  justify-content: space-evenly;
 }
 .map-container {
   /* remove display block later */
   display: block;
   width: 500px;
   height: 500px;
-  border: 2px solid;
   background-color: red;
 }
 
