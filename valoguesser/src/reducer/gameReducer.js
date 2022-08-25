@@ -9,8 +9,11 @@ export const reducer = (state, action) => {
         return { ...state, confirmed: true };
     }
     if (action.type === "NEXT_ROUND") {
-        let nextRound = state.roundNumber + 1;
-        return { ...state, roundNumber: nextRound, mapClick: false, confirmed: false };
+        if (state.roundNumber < 5) {
+            let nextRound = state.roundNumber + 1;
+            return { ...state, roundNumber: nextRound, confirmed: false, mapClick: false, xCoords: 0, yCoords: 0 };
+        }
+        return { ...state };
     }
     throw new Error();
 }

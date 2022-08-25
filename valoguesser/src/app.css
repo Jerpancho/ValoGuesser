@@ -77,7 +77,9 @@ li > input {
   margin: 50px;
   display: flex;
   justify-content: space-evenly;
+  gap: 1rem;
 }
+
 .map-container {
   /* remove display block later */
   display: block;
@@ -88,6 +90,18 @@ li > input {
 
 .map-button {
   padding: 1rem 3rem;
+}
+
+.round-container {
+  min-height: 80vh;
+  width: 80%;
+  border: 2px solid;
+}
+
+.round-container > * {
+  display: block;
+  width: 50%;
+  margin: 0 auto;
 }
 
 .card {
