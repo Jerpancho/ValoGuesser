@@ -13,7 +13,6 @@ const Game = () => {
     mapClick: false,
     xCoords: 0,
     yCoords: 0,
-    score: [],
   };
 
   const map = useRef(null); //targets the map
@@ -31,6 +30,7 @@ const Game = () => {
       yChosenCoords: 0,
       xActualCoords: 424,
       yActualCoords: 168,
+      score: 0,
     },
     {
       id: 2,
@@ -41,6 +41,7 @@ const Game = () => {
       yChosenCoords: 0,
       xActualCoords: 312,
       yActualCoords: 212,
+      score: 0,
     },
     {
       id: 3,
@@ -51,6 +52,7 @@ const Game = () => {
       yChosenCoords: 0,
       xActualCoords: 168,
       yActualCoords: 424,
+      score: 0,
     },
     {
       id: 4,
@@ -61,6 +63,7 @@ const Game = () => {
       yChosenCoords: 0,
       xActualCoords: 321,
       yActualCoords: 123,
+      score: 0,
     },
     {
       id: 5,
@@ -71,6 +74,7 @@ const Game = () => {
       yChosenCoords: 0,
       xActualCoords: 123,
       yActualCoords: 205,
+      score: 0,
     },
   ]);
 
@@ -126,6 +130,7 @@ const Game = () => {
             yActual={rounds[gameState.roundNumber].yActualCoords}
           />
         ) : (
+          // when game is over
           // should pass in a prop of all the rounds with their coordinate history
           <Map
             handleCoords={handleCoords}
@@ -152,20 +157,22 @@ const Game = () => {
       </div>
       {/* create component for showing the image */}
       {/* needs refactoring on conditional rendering */}
-      <div className="round-container">
-        <p>
-          {gameState.roundNumber < 5
-            ? rounds[gameState.roundNumber].id
-            : "game over"}
-        </p>
+      {rounds[gameState.roundNumber] && (
+        <div className="round-container">
+          <p>
+            {gameState.roundNumber < 5
+              ? rounds[gameState.roundNumber].id
+              : "game over"}
+          </p>
 
-        {gameState.roundNumber < 5 ? (
-          <img
-            src={rounds[gameState.roundNumber].guessImage}
-            alt="a certain location in valorant"
-          />
-        ) : null}
-      </div>
+          {gameState.roundNumber < 5 ? (
+            <img
+              src={rounds[gameState.roundNumber].guessImage}
+              alt="a certain location in valorant"
+            />
+          ) : null}
+        </div>
+      )}
     </div>
   );
 };

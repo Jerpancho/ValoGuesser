@@ -5,14 +5,21 @@ import Card from "./card";
 const Select = () => {
   // this list should be taken from an api with proper unique ids
   const [mapList, setMapList] = useState([]);
-  const [selected, setSelected] = useState("");
-  console.log(selected);
-
-  const handleClick = (name) => {
-    setSelected(name);
-  };
   useEffect(() => {
-    setMapList(["Ascent", "Bind", "Haven"]);
+    setMapList([
+      {
+        id: 0,
+        name: "Ascent"
+      },
+      {
+        id: 1,
+        name: "Bind"
+      },
+      {
+        id: 2,
+        name: "Haven"
+      }
+    ]);
   }, []);
 
   return (
@@ -25,13 +32,13 @@ const Select = () => {
           {mapList.map((item, index) => (
             //turn this into a cards list instead
             //replace index with actual id
-            <li key={index}>
+            <li key={item.id}>
               <Card
                 img={
                   "https://cdn1.dotesports.com/wp-content/uploads/2020/06/08142212/Ascent-2.png"
                 }
-                name={item}
-                handleClick={handleClick}
+                id={item.id}
+                name={item.name}
               />
             </li>
           ))}

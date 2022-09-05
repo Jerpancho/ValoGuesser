@@ -118,8 +118,12 @@ li > input {
   margin: 0.75rem auto;
   text-align: center;
 }
-.card > button {
+/* add some transition/animations */
+.card > .card-btn {
+  text-decoration: none;
+  color: white;
   font-size: 1rem;
   padding: 0.5rem 3.75em;
   margin-bottom: 1rem;
+  background-color: gray;
 }

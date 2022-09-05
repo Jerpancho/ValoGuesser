@@ -1,13 +1,14 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
-const Card = ({ img, name, handleClick }) => {
+const Card = ({ img, name, id, handleClick }) => {
 
   return (
     <div className="card">
       <img src={img} alt="sample game map" />
       <p>{name}</p>
-      <button onClick={() => { handleClick(name) }}>Play</button>
-    </div>
+      <Link className="card-btn" to={`/game/${id}`}>Play</Link>
+    </div >
   );
 };
 

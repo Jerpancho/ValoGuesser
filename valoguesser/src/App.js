@@ -10,9 +10,8 @@ function App() {
       <Routes>
         <Route exact path="/" element={<Home />} />
         <Route exact path="/map" element={<Select />}>
-          {/* start the game when map is selected with /map/:id or /map/:name */}
         </Route>
-        <Route exact path="/game" element={<Game map="ascent" />}></Route>
+        <Route exact path="/game/:id" element={<Game />}></Route>
       </Routes>
 
     </BrowserRouter>

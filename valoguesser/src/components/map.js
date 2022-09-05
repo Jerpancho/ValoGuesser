@@ -14,15 +14,18 @@ const Map = ({ x, y, handleCoords, map, click, confirmed, xActual, yActual }) =>
                     fill="blue"
                 />
             )}
-            {confirmed && <circle
-                cx={xActual}
-                cy={yActual}
-                r="5" //radius
-                stroke="black"
-                strokeWidth="1"
-                fill="green"
-            />}
-            {confirmed && <line x1={x} y1={y} x2={xActual} y2={yActual} stroke="black" />}
+            {confirmed && <>
+                <circle
+                    cx={xActual}
+                    cy={yActual}
+                    r="5" //radius
+                    stroke="black"
+                    strokeWidth="1"
+                    fill="green"
+                />
+                <line x1={x} y1={y} x2={xActual} y2={yActual} stroke="black" />
+            </>
+            }
         </svg>
     )
 }
