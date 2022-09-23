@@ -1,4 +1,5 @@
 import React, { useState, useRef, useReducer } from "react";
+import { Link } from "react-router-dom";
 import Map from "./map";
 import { reducer } from "../reducer/gameReducer";
 // replace images from actual api
@@ -15,7 +16,7 @@ const Game = () => {
     yCoords: 0,
   };
 
-  const map = useRef(null); //targets the map
+  const map = useRef(null); //targets the map for reference
 
   // convert to reducer
   const [gameState, dispatch] = useReducer(reducer, defaultState);
@@ -144,9 +145,13 @@ const Game = () => {
           />
         )}
 
-        <button className="map-button" onClick={handleRound}>
-          {gameState.confirmed ? "Next Round" : "Confirm"}
-        </button>
+        {rounds[gameState.roundNumber] ? (
+          <button className="map-button" onClick={handleRound}>
+            {gameState.confirmed ? "Next Round" : "Confirm"}
+          </button>
+        ) : (
+          <Link to="/map">Play Again</Link>
+        )}
         {gameState.confirmed && (
           <div>
             <p>Your coordinates are:</p>

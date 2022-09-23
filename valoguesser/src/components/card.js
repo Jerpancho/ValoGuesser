@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const Card = ({ img, name, id, handleClick }) => {
+const Card = ({ img, name, id }) => {
 
   return (
     <div className="card">
