@@ -1,27 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
+import { useFetchData } from "../util/hooks/useFetchData";
 // import { Link } from "react-router-dom";
 import Card from "./card";
 
 const Select = () => {
   // this list should be taken from an api with proper unique ids
-  const [mapList, setMapList] = useState([]);
-  useEffect(() => {
-    setMapList([
-      {
-        id: 0,
-        name: "Ascent"
-      },
-      {
-        id: 1,
-        name: "Bind"
-      },
-      {
-        id: 2,
-        name: "Haven"
-      }
-    ]);
-  }, []);
+  // fetch map data
+  const { isLoading, data, error } = useFetchData("http://localhost:4646/map");
 
+  console.log(data);
   return (
     <div className="app">
       <header className="app-header">
@@ -29,19 +16,19 @@ const Select = () => {
       </header>
       <main>
         <ul className="map-selection">
-          {mapList.map((item, index) => (
-            //turn this into a cards list instead
-            //replace index with actual id
-            <li key={item.id}>
-              <Card
-                img={
-                  "https://cdn1.dotesports.com/wp-content/uploads/2020/06/08142212/Ascent-2.png"
-                }
-                id={item.id}
-                name={item.name}
-              />
-            </li>
-          ))}
+          {error ? (
+            <div>error</div>
+          ) : !isLoading ? (
+            data.map((item, index) => (
+              //turn this into a cards list instead
+              //replace index with actual id
+              <li key={item.map_uid}>
+                <Card img={item.thumbnail} id={item.map_uid} name={item.name} />
+              </li>
+            ))
+          ) : (
+            <div>loading...</div>
+          )}
         </ul>
       </main>
     </div>

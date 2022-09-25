@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from 'axios';
 
-export const fetchData = (url) => {
+export const useFetchData = (url) => {
     // set loading,data and error variable
     const [isLoading, setIsLoading] = useState(true);
     const [data, setData] = useState(null);
@@ -10,9 +10,10 @@ export const fetchData = (url) => {
     // fetch data using axios
     const getData = async () => {
         try {
+            setError(null);
             setIsLoading(true);
             const result = await axios.get(url);
-            setData(result);
+            setData(result.data);
             setIsLoading(false);
         } catch (err) {
             setError(err.message);

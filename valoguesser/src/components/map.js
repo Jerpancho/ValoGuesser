@@ -1,9 +1,10 @@
 import React from 'react'
-
-const Map = ({ x, y, handleCoords, map, click, confirmed, xActual, yActual }) => {
-    let url = "https://assets.rockpapershotgun.com/images/2020/06/Ascent-Callouts.png";
+import { useFetchData } from '../util/hooks/useFetchData';
+const Map = ({ map_uid, x, y, handleCoords, map, click, confirmed, xActual, yActual }) => {
+    const { isLoading, data, error } = useFetchData(`http://localhost:4646/map/${map_uid}`)
     return (
-        <svg className="map-container" onMouseDown={handleCoords} ref={map} style={{ backgroundImage: `url(${url})`, backgroundSize: "cover" }}>
+        !isLoading &&
+        (<svg className="map-container" onMouseDown={handleCoords} ref={map} style={{ backgroundImage: `url(${confirmed ? data.callout_img : data.base_img})`, backgroundSize: "cover" }}>
             {click && (
                 <circle
                     cx={x}
@@ -26,7 +27,7 @@ const Map = ({ x, y, handleCoords, map, click, confirmed, xActual, yActual }) =>
                 <line x1={x} y1={y} x2={xActual} y2={yActual} stroke="black" />
             </>
             }
-        </svg>
+        </svg>)
     )
 }
 

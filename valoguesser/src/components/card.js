@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const Card = ({ img, name, id }) => {
-
+  console.log(img);
   return (
     <div className="card">
       <img src={img} alt="sample game map" />

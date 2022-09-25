@@ -111,6 +111,7 @@ li > input {
   align-items: center;
 }
 .card > img {
+  image-rendering: optimizeQuality;
   width: 20rem;
 }
 .card > p {

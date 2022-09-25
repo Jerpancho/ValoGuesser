@@ -5,7 +5,7 @@ import { reducer } from "../reducer/gameReducer";
 // replace images from actual api
 import image from "../resources/images/valorant_ascent.jpg";
 import image2 from "../resources/images/valorant-map-ascent-centre.jpg";
-// import { useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 const Game = () => {
   const defaultState = {
@@ -16,6 +16,7 @@ const Game = () => {
     yCoords: 0,
   };
 
+  const { id } = useParams();
   const map = useRef(null); //targets the map for reference
 
   // convert to reducer
@@ -121,6 +122,7 @@ const Game = () => {
         {/* NOTE: this is for the map and a dot that points where you choose on the map*/}
         {rounds[gameState.roundNumber] ? (
           <Map
+            map_uid={id}
             handleCoords={handleCoords}
             map={map}
             click={gameState.mapClick}
@@ -134,6 +136,7 @@ const Game = () => {
           // when game is over
           // should pass in a prop of all the rounds with their coordinate history
           <Map
+            map_uid={id}
             handleCoords={handleCoords}
             map={map}
             click={gameState.mapClick}
