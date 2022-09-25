@@ -1,11 +1,13 @@
 import React, { useState, useRef, useReducer } from "react";
+import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
-import Map from "./map";
 import { reducer } from "../reducer/gameReducer";
+import Map from "./map";
+import { getCoords } from "../util/gameUtils/getCoords";
 // replace images from actual api
 import image from "../resources/images/valorant_ascent.jpg";
 import image2 from "../resources/images/valorant-map-ascent-centre.jpg";
-import { useParams } from "react-router-dom";
+
 
 const Game = () => {
   const defaultState = {
@@ -16,6 +18,7 @@ const Game = () => {
     yCoords: 0,
   };
 
+  // map id from paramater
   const { id } = useParams();
   const map = useRef(null); //targets the map for reference
 
@@ -81,16 +84,9 @@ const Game = () => {
   ]);
 
   // TODO: rounds variable that manages guess images
-
-  const getCoords = (e) => {
-    let pos = map.current.getBoundingClientRect();
-    let newX = e.clientX - Math.floor(pos.left);
-    let newY = e.clientY - Math.floor(pos.top);
-    return [newX, newY];
-  };
   // or gets prop from the link-to with the map image url
   const handleCoords = (e) => {
-    let [newX, newY] = getCoords(e);
+    let [newX, newY] = getCoords(e, map);
     // update coordinates and set mapClick to true
     // if gamestate hasnt been confirmed yet or if rounds at the current round exist
     if (!gameState.confirmed && rounds[gameState.roundNumber]) {
