@@ -1,7 +1,9 @@
 import React, { useState, useRef } from "react";
+import axios from "axios";
 import { useFetchData } from "../util/hooks/useFetchData";
 import Map from "./map";
 import { getCoords } from "../util/gameUtils/getCoords";
+import { checkURL } from "../util/gameUtils/checkURL";
 const RoundForm = () => {
   const { isLoading, data, error } = useFetchData("http://localhost:4646/map");
   const [mapId, setMapId] = useState("0");
@@ -11,6 +13,7 @@ const RoundForm = () => {
   const [x, setX] = useState(250);
   const [y, setY] = useState(250);
   const [diffficulty, setDifficulty] = useState("normal");
+  const [status, setStatus] = useState([]);
   const mapRef = useRef(null);
 
   const handleMapId = (e) => {
@@ -26,6 +29,7 @@ const RoundForm = () => {
   };
   const handleImageUrl = (e, dispatch) => {
     const url = e.target.value;
+    if (!checkURL(url)) console.log("must be a correct image url");
     dispatch(url);
   };
   const handleCoords = (e) => {
@@ -35,10 +39,45 @@ const RoundForm = () => {
     setY(yCoord);
     setMapClick(true);
   };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const errors = [];
+    if (mapId === "0") {
+      errors.push("Select a Map");
+    }
+    if (!checkURL(guessImage)) {
+      errors.push("Must be a correct image url (png)");
+    }
+    if (!checkURL(expandedImage)) {
+      errors.push("Must be a correct image url (png)");
+    }
+    if (errors.length > 0) {
+      setStatus(errors);
+    } else {
+      // post body to api and receive response
+      try {
+        await axios.post("http://localhost:4646/round", {
+          map_uid: mapId,
+          guess_img: guessImage,
+          expanded_img: expandedImage,
+          x_coord: x,
+          y_coord: y,
+          difficulty: diffficulty,
+        });
+        setStatus(["success"]);
+      } catch (error) {
+        setStatus([error.message]);
+      }
+    }
+  };
   return (
     <>
       <h1>Create a Round</h1>
       {/* select the map */}
+      {status.map((item, index) => {
+        return <div key={index}>{item}</div>;
+      })}
       {error ? (
         <div>error retrieving map selection</div>
       ) : (
@@ -104,7 +143,9 @@ const RoundForm = () => {
       </select>
       {/* create button to send a request to create a round on info given */}
       <br />
-      <button>submit</button>
+      <button className="round-submit" onClick={handleSubmit}>
+        submit
+      </button>
       {/* confirmation form */}
       <div className="confirmation-form">
         <h1>Confirmation Form</h1>
