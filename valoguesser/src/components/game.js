@@ -1,14 +1,11 @@
-import React, { useState, useRef, useReducer } from "react";
+import React, { useState, useRef, useReducer, useEffect } from "react";
+import { useFetchData } from "../util/hooks/useFetchData";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { reducer } from "../reducer/gameReducer";
 import Map from "./map";
 import { getCoords } from "../util/gameUtils/getCoords";
 // replace images from actual api
-import image from "../resources/images/valorant_ascent.jpg";
-import image2 from "../resources/images/valorant-map-ascent-centre.jpg";
-
-
 const Game = () => {
   const defaultState = {
     roundNumber: 0,
@@ -17,71 +14,27 @@ const Game = () => {
     xCoords: 0,
     yCoords: 0,
   };
-
-  // map id from paramater
-  const { id } = useParams();
-  const map = useRef(null); //targets the map for reference
-
-  // convert to reducer
+  //reducer
   const [gameState, dispatch] = useReducer(reducer, defaultState);
-  // replace static data with data from api
-  const [rounds, setRounds] = useState([
-    {
-      id: 1,
-      mapId: 1,
-      guessImage: image,
-      answerImage: image,
-      xChosenCoords: 0,
-      yChosenCoords: 0,
-      xActualCoords: 424,
-      yActualCoords: 168,
-      score: 0,
-    },
-    {
-      id: 2,
-      mapId: 1,
-      guessImage: image2,
-      answerImage: image2,
-      xChosenCoords: 0,
-      yChosenCoords: 0,
-      xActualCoords: 312,
-      yActualCoords: 212,
-      score: 0,
-    },
-    {
-      id: 3,
-      mapId: 1,
-      guessImage: image,
-      answerImage: image,
-      xChosenCoords: 0,
-      yChosenCoords: 0,
-      xActualCoords: 168,
-      yActualCoords: 424,
-      score: 0,
-    },
-    {
-      id: 4,
-      mapId: 1,
-      guessImage: image2,
-      answerImage: image2,
-      xChosenCoords: 0,
-      yChosenCoords: 0,
-      xActualCoords: 321,
-      yActualCoords: 123,
-      score: 0,
-    },
-    {
-      id: 5,
-      mapId: 1,
-      guessImage: image,
-      answerImage: image,
-      xChosenCoords: 0,
-      yChosenCoords: 0,
-      xActualCoords: 123,
-      yActualCoords: 205,
-      score: 0,
-    },
-  ]);
+  // map id from paremeter
+  const { id } = useParams();
+  //targets the map for reference
+  const map = useRef(null);
+  // configure round item data
+  const [rounds, setRounds] = useState([]);
+  const { loading, data, error } = useFetchData(
+    `http://localhost:4646/round/${id}`
+  );
+  useEffect(() => {
+    if (data) {
+      let roundList = [];
+      data.forEach((element) => {
+        const newObject = { ...element, x_chosen: 0, y_chosen: 0, score: 0 };
+        roundList = [...roundList, newObject];
+      });
+      setRounds(roundList);
+    }
+  }, [data]);
 
   // TODO: rounds variable that manages guess images
   // or gets prop from the link-to with the map image url
@@ -93,6 +46,7 @@ const Game = () => {
       dispatch({ type: "UPDATE_COORDS", payload: { x: newX, y: newY } });
     }
   };
+  // when button is clicked
   const handleRound = () => {
     // set the round confirmed to true
     // set payload to be the actual coordinates and compare with chosen coordinates
@@ -110,7 +64,6 @@ const Game = () => {
     }
   };
 
-  console.log(gameState);
   return (
     <div className="game">
       {/* create a seperate component later for the map and the image-to-guess */}
@@ -125,58 +78,17 @@ const Game = () => {
             x={gameState.xCoords}
             y={gameState.yCoords}
             confirmed={gameState.confirmed}
-            xActual={rounds[gameState.roundNumber].xActualCoords}
-            yActual={rounds[gameState.roundNumber].yActualCoords}
+            xActual={rounds[gameState.roundNumber].x_coord}
+            yActual={rounds[gameState.roundNumber].y_coord}
           />
-        ) : (
-          // when game is over
-          // should pass in a prop of all the rounds with their coordinate history
-          <Map
-            map_uid={id}
-            handleCoords={handleCoords}
-            map={map}
-            click={gameState.mapClick}
-            x={gameState.xCoords}
-            y={gameState.yCoords}
-            confirmed={gameState.confirmed}
-            xActual={0}
-            yActual={0}
-          />
-        )}
+        ) : null}
 
-        {rounds[gameState.roundNumber] ? (
-          <button className="map-button" onClick={handleRound}>
-            {gameState.confirmed ? "Next Round" : "Confirm"}
-          </button>
-        ) : (
-          <Link to="/map">Play Again</Link>
-        )}
-        {gameState.confirmed && (
-          <div>
-            <p>Your coordinates are:</p>
-            <p>x: {gameState.xCoords}</p>
-            <p>y: {gameState.yCoords}</p>
-          </div>
-        )}
+        <button className="map-button" onClick={handleRound}>
+          {gameState.confirmed ? "Next Round" : "Confirm"}
+        </button>
       </div>
       {/* create component for showing the image */}
       {/* needs refactoring on conditional rendering */}
-      {rounds[gameState.roundNumber] && (
-        <div className="round-container">
-          <p>
-            {gameState.roundNumber < 5
-              ? rounds[gameState.roundNumber].id
-              : "game over"}
-          </p>
-
-          {gameState.roundNumber < 5 ? (
-            <img
-              src={rounds[gameState.roundNumber].guessImage}
-              alt="a certain location in valorant"
-            />
-          ) : null}
-        </div>
-      )}
     </div>
   );
 };
