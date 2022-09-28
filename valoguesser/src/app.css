@@ -93,7 +93,7 @@ li > input {
 }
 
 .round-container {
-  min-height: 80vh;
+  min-height: 50vh;
   width: 80%;
   border: 2px solid;
 }
@@ -101,6 +101,7 @@ li > input {
 .round-container > * {
   display: block;
   width: 50%;
+  height: 50%;
   margin: 0 auto;
 }
 
