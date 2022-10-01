@@ -23,7 +23,9 @@ header {
   font-size: 2rem;
   text-align: center;
 }
-
+body {
+  background-color: #ffffff;
+}
 main {
   margin-top: 3rem;
 }
@@ -74,10 +76,8 @@ li > input {
 }
 
 .game {
-  margin: 50px;
   display: flex;
   justify-content: space-evenly;
-  gap: 1rem;
 }
 
 .map-container {
@@ -85,11 +85,21 @@ li > input {
   display: block;
   width: 500px;
   height: 500px;
-  border: 2px solid black;
+}
+#map-image {
+  background-size: cover;
 }
 
 .map-button {
   padding: 1rem 3rem;
+  background-color: #00ff8c7c;
+  border: none;
+  transition: background-color 0.5s;
+}
+.map-button:hover {
+  padding: 1rem 3rem;
+  background-color: #00ff8b;
+  border: none;
 }
 
 .round-container {
@@ -100,9 +110,13 @@ li > input {
 
 .round-container > * {
   display: block;
-  width: 50%;
-  height: 50%;
+  width: 100%;
+  max-height: 90vh;
   margin: 0 auto;
+}
+#answer-img {
+  background-size: cover;
+  border: 2px solid black;
 }
 
 .card {
@@ -120,6 +134,7 @@ li > input {
   margin: 0.75rem auto;
   text-align: center;
 }
+
 /* add some transition/animations */
 .card > .card-btn {
   text-decoration: none;
@@ -127,5 +142,15 @@ li > input {
   font-size: 1rem;
   padding: 0.5rem 3.75em;
   margin-bottom: 1rem;
-  background-color: gray;
+  background-color: #00ff8c6e;
+  transition: background-color 0.5s;
+}
+.card > .card-btn:hover {
+  background-color: #00ff8b;
+}
+
+.left-panel {
+  padding: 1rem 2rem;
+  height: 100vh;
+  background-color: black;
 }

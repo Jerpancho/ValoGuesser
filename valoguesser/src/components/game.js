@@ -86,33 +86,38 @@ const Game = () => {
       ) : (gameState.roundNumber < rounds.length) ? (
         <div className="game">
           {/* NOTE: this is for the map and a dot that points where you choose on the map*/}
-          <div>
-            <Map
-              map_uid={id}
-              handleCoords={handleCoords}
-              map={map}
-              click={gameState.mapClick}
-              x={gameState.xCoords}
-              y={gameState.yCoords}
-              confirmed={gameState.confirmed}
-              xActual={rounds[gameState.roundNumber].x_coord}
-              yActual={rounds[gameState.roundNumber].y_coord}
-            />
+          <div className="left-panel">
+            <div>
+              <Map
+                map_uid={id}
+                handleCoords={handleCoords}
+                map={map}
+                click={gameState.mapClick}
+                x={gameState.xCoords}
+                y={gameState.yCoords}
+                confirmed={gameState.confirmed}
+                xActual={rounds[gameState.roundNumber].x_coord}
+                yActual={rounds[gameState.roundNumber].y_coord}
+              />
 
-            <button className="map-button" onClick={handleRound}>
-              {gameState.confirmed ? "Next Round" : "Confirm"}
-            </button>
+              <button className="map-button" onClick={handleRound}>
+                {gameState.confirmed ? "Next Round" : "Confirm"}
+              </button>
+            </div>
           </div>
+
 
           {/* setup round images and reveal expanded image when confirming round */}
           <div className="round-container">
             {gameState.confirmed ? (
               <img
+                id="answer-img"
                 src={rounds[gameState.roundNumber].expanded_img}
                 alt="guess"
               />
             ) : (
               <img
+
                 src={rounds[gameState.roundNumber].guess_img}
                 alt="expanded"
               />
