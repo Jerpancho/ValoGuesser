@@ -1,10 +1,12 @@
 import React, { useState, useRef, useReducer, useEffect } from "react";
 import { useFetchData } from "../util/hooks/useFetchData";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 // import { Link } from "react-router-dom";
 import { reducer } from "../reducer/gameReducer";
-import Map from "./map";
 import { getCoords } from "../util/gameUtils/getCoords";
+import { score } from "../util/gameUtils/score";
+import Map from "./map";
+import Gameover from "./gameover";
 // replace images from actual api
 const Game = () => {
   const defaultState = {
@@ -18,6 +20,7 @@ const Game = () => {
   const [gameState, dispatch] = useReducer(reducer, defaultState);
   // map id from paremeter
   const { id } = useParams();
+  const navigate = useNavigate();
   //targets the map for reference
   const map = useRef(null);
   // configure round item data
@@ -39,6 +42,13 @@ const Game = () => {
       setIsRoundLoading(false);
     }
   }, [isLoading, data]);
+
+  useEffect(
+    () => {
+      const session = sessionStorage.getItem('isPlaying');
+      if (session === 'false') navigate('/');
+    }, [navigate]
+  );
   // TODO: rounds variable that manages guess images
   // or gets prop from the link-to with the map image url
   const handleCoords = (e) => {
@@ -61,7 +71,8 @@ const Game = () => {
         // calculate score and update chosen coords
         const updateRounds = rounds.map((item, index) => {
           if (gameState.roundNumber === index) {
-            return { ...item, x_chosen: gameState.xCoords, y_chosen: gameState.yCoords }
+            let s = score(gameState.xCoords, gameState.yCoords, item.x_coord, item.y_coord);
+            return { ...item, x_chosen: gameState.xCoords, y_chosen: gameState.yCoords, score: s }
           }
           return item;
         })
@@ -75,7 +86,6 @@ const Game = () => {
       }
     }
   };
-  console.log(rounds);
   return (
     <div>
       {/* create a seperate component later for the map and the image-to-guess */}
@@ -100,6 +110,8 @@ const Game = () => {
                 yActual={rounds[gameState.roundNumber].y_coord}
               />
 
+              {gameState.confirmed && <div className="score">{rounds[gameState.roundNumber].score}</div>}
+
               <button className="map-button" onClick={handleRound}>
                 {gameState.confirmed ? "Next Round" : "Confirm"}
               </button>
@@ -111,28 +123,20 @@ const Game = () => {
           <div className="round-container">
             {gameState.confirmed ? (
               <img
-                id="answer-img"
+                id="expanded-image"
                 src={rounds[gameState.roundNumber].expanded_img}
-                alt="guess"
+                alt="expanded"
               />
             ) : (
               <img
-
+                id="guess-image"
                 src={rounds[gameState.roundNumber].guess_img}
-                alt="expanded"
+                alt="guess"
               />
             )}
           </div>
         </div>
-      ) : <div className="game-over">
-        <Map
-          map_uid={id}
-          click={false}
-          confirmed={false}
-          gameOver={true}
-          roundHistory={rounds}
-        />
-      </div>
+      ) : <Gameover map_uid={id} roundHistory={rounds} />
       }
       {/* create component for showing the image */}
       {/* needs refactoring on conditional rendering */}

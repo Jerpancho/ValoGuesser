@@ -1,15 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 // things to consider testing:
 // -  the link correctly goes to the select route
 // -  you can see header and sections
 
 const Home = () => {
+  const navigate = useNavigate();
   const [list, setList] = useState([]);
   useEffect(() => {
     setList(["test1", "test2", "test3", "test4"]);
   }, [])
+  const handleClick = () => {
+    navigate('/map');
+  }
   return (
     <div className="app">
       <header className="app-header">
@@ -23,9 +27,9 @@ const Home = () => {
           })}
         </div>
         <div className="btn-container">
-          <Link to="/map" className="btn">
+          <button onClick={handleClick} className="btn">
             START
-          </Link>
+          </button>
         </div>
       </main>
     </div>

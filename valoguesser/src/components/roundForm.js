@@ -66,6 +66,11 @@ const RoundForm = () => {
           difficulty: diffficulty,
         });
         setStatus(["success"]);
+        setGuessImage("");
+        setExpandedImage("");
+        setX(250);
+        setY(250);
+        setMapId("0");
       } catch (error) {
         setStatus([error.message]);
       }
@@ -84,7 +89,7 @@ const RoundForm = () => {
         !isLoading && (
           <div>
             <label htmlFor="create-round-map">Select the map:</label>
-            <select id="create-round-map" onChange={handleMapId}>
+            <select id="create-round-map" onChange={handleMapId} value={mapId}>
               <option value="0">select map</option>
               {data.map((item) => {
                 return (
@@ -121,6 +126,7 @@ const RoundForm = () => {
         type="text"
         id="guess-image-url"
         onChange={(e) => handleImageUrl(e, setGuessImage)}
+        value={guessImage}
       />
       <br />
       <label htmlFor="expanded-image-url">expanded image url: </label>
@@ -128,6 +134,7 @@ const RoundForm = () => {
         type="text"
         id="expanded-image-url"
         onChange={(e) => handleImageUrl(e, setExpandedImage)}
+        value={expandedImage}
       />
       <br />
       {/* select x and y coords of round item*/}

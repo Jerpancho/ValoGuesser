@@ -102,21 +102,25 @@ li > input {
   border: none;
 }
 
-.round-container {
-  min-height: 50vh;
-  width: 80%;
-  border: 2px solid;
+.score {
+  color: white;
 }
 
-.round-container > * {
-  display: block;
-  width: 100%;
-  max-height: 90vh;
+.round-container {
+  width: 80%;
+  border: 2px solid;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#guess-image {
+  max-height: 25%;
   margin: 0 auto;
 }
-#answer-img {
-  background-size: cover;
-  border: 2px solid black;
+#expanded-image {
+  width: 100%;
+  margin: 0 auto;
 }
 
 .card {
@@ -137,6 +141,8 @@ li > input {
 
 /* add some transition/animations */
 .card > .card-btn {
+  border: none;
+  cursor: pointer;
   text-decoration: none;
   color: white;
   font-size: 1rem;

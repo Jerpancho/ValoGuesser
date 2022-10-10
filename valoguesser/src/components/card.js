@@ -1,13 +1,17 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Card = ({ img, name, id }) => {
-  console.log(img);
+  const navigate = useNavigate();
+  function handleClick() {
+    sessionStorage.setItem("isPlaying", true);
+    navigate(`/game/${id}`);
+  }
   return (
     <div className="card">
       <img src={img} alt="sample game map" />
       <p>{name}</p>
-      <Link className="card-btn" to={`/game/${id}`}>Play</Link>
+      <button className="card-btn" onClick={handleClick}>Play</button>
     </div >
   );
 };

@@ -5,7 +5,7 @@ export const reducer = (state, action) => {
         return { ...state, mapClick: true, xCoords: x, yCoords: y };
     }
     if (action.type === "ROUND_CONFIRMED") {
-        // calculate score here?
+        // calculate score here
         return { ...state, confirmed: true };
     }
     if (action.type === "NEXT_ROUND") {
