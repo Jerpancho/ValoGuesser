@@ -15,9 +15,12 @@ const Game = () => {
     mapClick: false,
     xCoords: 0,
     yCoords: 0,
+    timeout: false,
   };
   //reducer
   const [gameState, dispatch] = useReducer(reducer, defaultState);
+  const [timer, setTimer] = useState(5);
+  const [startTimer, setStartTimer] = useState(false);
   // map id from paremeter
   const { id } = useParams();
   const navigate = useNavigate();
@@ -29,20 +32,54 @@ const Game = () => {
   const { isLoading, data, error } = useFetchData(
     `http://localhost:4646/round/${id}`
   );
-
+  // set the structure of the rounds variable
   useEffect(() => {
     if (isLoading === false) {
       setIsRoundLoading(true);
       let roundList = [];
       data.forEach((element) => {
-        const newObject = { ...element, x_chosen: 0, y_chosen: 0, score: 0 };
+        const newObject = { ...element, x_chosen: 0, y_chosen: 0, score: 0, timedOut: false };
         roundList = [...roundList, newObject];
       });
       setRounds(roundList);
       setIsRoundLoading(false);
+      setStartTimer(true);
     }
   }, [isLoading, data]);
 
+  // once round is loaded start timer?
+
+  useEffect(() => {
+    let countdown = null;
+    if (startTimer) {
+      countdown = setInterval(() => {
+        setTimer(time => time - 1);
+      }, 1000);
+    }
+    // conditions if lose by timeout
+    if (gameState.roundNumber >= rounds.length) clearInterval(countdown);
+    if (timer <= 0) {
+      // update the round to be timedout
+      const updateRound = rounds.map((item, index) => {
+        if (gameState.roundNumber === index) {
+          return { ...item, timedOut: true }
+        }
+        return item;
+      })
+
+      clearInterval(countdown);
+      setStartTimer(false);
+      setRounds(updateRound);
+      dispatch({ type: "TIMEOUT" });
+      // if timer hits 0, the player gets a score of 0 
+    }
+    return () => clearInterval(countdown);
+    // this shouldnt take in rounds or gamestate as an argument as they will cause an infinite loop
+    // we only want to run those hooks once
+    // eslint-disable-next-line
+  }, [startTimer, timer]);
+
+  // if incorrectly navigated to game then redirect
   useEffect(
     () => {
       const session = sessionStorage.getItem('isPlaying');
@@ -77,12 +114,15 @@ const Game = () => {
           return item;
         })
 
+        setStartTimer(false);
         setRounds(updateRounds);
         dispatch({ type: "ROUND_CONFIRMED" });
       } else {
         // if game state has already been confirmed, then go to next round
         // increase the round counter, set mapClick to false, set confirm to false
         dispatch({ type: "NEXT_ROUND" });
+        setTimer(40);
+        setStartTimer(true);
       }
     }
   };
@@ -98,6 +138,7 @@ const Game = () => {
           {/* NOTE: this is for the map and a dot that points where you choose on the map*/}
           <div className="left-panel">
             <div>
+              <h3 className="timer">{(timer <= 30) && timer}</h3>
               <Map
                 map_uid={id}
                 handleCoords={handleCoords}
@@ -108,6 +149,7 @@ const Game = () => {
                 confirmed={gameState.confirmed}
                 xActual={rounds[gameState.roundNumber].x_coord}
                 yActual={rounds[gameState.roundNumber].y_coord}
+                timeout={gameState.timeout}
               />
 
               {gameState.confirmed && <div className="score">{rounds[gameState.roundNumber].score}</div>}

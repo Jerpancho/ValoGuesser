@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import SelectList from "./selectList";
 
 const Select = () => {
   // this list should be taken from an api with proper unique ids
-  console.log(sessionStorage)
+  useEffect(() => {
+    sessionStorage.setItem('isPlaying', false);
+  }, []);
   return (
     <div className="app">
       <header className="app-header">

@@ -80,6 +80,10 @@ li > input {
   justify-content: space-evenly;
 }
 
+.timer {
+  color: white;
+  font-weight: 300;
+}
 .map-container {
   /* remove display block later */
   display: block;

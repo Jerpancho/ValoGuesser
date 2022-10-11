@@ -9,6 +9,7 @@ const Home = () => {
   const navigate = useNavigate();
   const [list, setList] = useState([]);
   useEffect(() => {
+    sessionStorage.setItem('isPlaying', false);
     setList(["test1", "test2", "test3", "test4"]);
   }, [])
   const handleClick = () => {
