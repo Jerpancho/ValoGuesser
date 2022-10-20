@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useFetchData } from "../util/hooks/useFetchData";
+import { calculateRandomPointInCircle } from '../util/gameUtils/calculateCircle';
 const Map = ({
 	map_uid,
 	x,
@@ -12,12 +13,34 @@ const Map = ({
 	yActual,
 	gameOver = false,
 	roundHistory,
+	time,
 	timeout
 }) => {
 	const { isLoading, data, error } = useFetchData(
 		`http://localhost:4646/map/${map_uid}`
 	);
-	// console.log(timeout);
+	const [randomPoint, setRandomPoint] = useState(null);
+	const [randomRadius, setRandomRadius] = useState(250);
+	// every new round calculate a circle for the given coordinate
+	// the circle should be randomly around the actual coordinates
+	useEffect(() => {
+		console.log("effect restarted");
+		// resets the radius every time
+		setRandomRadius(250);
+		setRandomPoint(calculateRandomPointInCircle(xActual, yActual, 100));
+	}, [xActual, yActual]);
+
+	// every x amount of seconds (1 or 2 or 5) after the 15 second mark
+	// make the circle radius smaller
+	// another useEffect here
+	const reduceRadius = useCallback(() => {
+		setRandomRadius((prev) => prev - 5);
+	}, []);
+	useEffect(() => {
+		if (time < 10) {
+			reduceRadius();
+		}
+	}, [time, reduceRadius]);
 	return error ? (
 		<svg className="map-container">
 			<text x={250} y={250}>
@@ -33,6 +56,8 @@ const Map = ({
 					height="500"
 					width="500"
 				/>
+				<text x="30" y="30">{time}</text>
+				{!gameOver && time <= 15 && <circle cx={randomPoint.x} cy={randomPoint.y} r={randomRadius} fill='none' stroke='white' />}
 				{click && !timeout && (
 					<circle
 						cx={x}

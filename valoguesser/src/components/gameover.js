@@ -13,6 +13,7 @@ const Gameover = ({ map_uid, roundHistory }) => {
 
 		return finalScoreAmount;
 	}, [roundHistory]);
+
 	useEffect(() => {
 		sessionStorage.setItem('isPlaying', false);
 		let finalScoreOfGame = calculateFinalScore();

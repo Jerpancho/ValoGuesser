@@ -154,6 +154,7 @@ const Game = () => {
 								confirmed={gameState.confirmed}
 								xActual={rounds[gameState.roundNumber].x_coord}
 								yActual={rounds[gameState.roundNumber].y_coord}
+								time={time}
 								timeout={gameState.timeout}
 							/>
 
